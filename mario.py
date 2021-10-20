@@ -95,7 +95,7 @@ class Mario:
         self.miracle_count = C.MIRACLE_COUNT #30 = 1초 무적 정도
         self.jump = 0
     def update(self):
-        self.x += self.dir * 10
+        self.x += self.dir * 5
         self.y += self.jump * 10
         if self.dir > 0 or self.dir < 0:
             self.frameNumber = 3
