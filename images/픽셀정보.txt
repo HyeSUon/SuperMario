@@ -1,0 +1,15 @@
+screen_width = 800
+screen_height = 600
+
+
+small mario
+width = 64
+height = 64
+
+mario
+width = 64
+height = 128
+
+flower mario
+width = 64
+height = 128
