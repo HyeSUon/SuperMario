@@ -14,10 +14,10 @@ name = "MainState"
 mario = None
 
 def enter():
-    global mario
     mario = player.Mario()
 
 def exit():
+    global mario
     del(mario)
     close_canvas()
 
@@ -52,6 +52,7 @@ def handle_events():
 
 
 def update():
+    global mario
     mario.update()
     delay(0.01)
 

@@ -3,8 +3,8 @@ from pico2d import *
 class Mario:
     def __init__(self):
         self.image = load_image('images/mario_temp.png')
-        self.x = 100; self.y = 100;
-        self.left = 0; self.bottom = 0; self.right = 0; self.top = 0
+        self.height = 64; self.width = 64;
+        self.x = 100; self.y = 100 + (self.height / 2);
         self.frame = 0
         self.dir = 0
     def update(self):
