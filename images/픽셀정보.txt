@@ -1,15 +1,4 @@
-screen_width = 800
-screen_height = 600
-
-
-small mario
-width = 64
-height = 64
-
-mario
-width = 64
-height = 128
-
-flower mario
-width = 64
-height = 128
+마리오의 크기 48pxel 0.3m
+맵크기
+weight: 48 x 16 = 768pxel, 0.3m x 16 = 4.8m
+48pxel x10 = 480pxel, 0.3m x 10 = 3m
