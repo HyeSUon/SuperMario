@@ -57,9 +57,9 @@ class IdleState:
 
     def draw(boy):
         if boy.dir == 1:
-            boy.image.clip_draw(0, (96 + 1)*2, 48, 36, boy.x, boy.y)
+            boy.image.clip_draw(0, 96*2, 48, 36, boy.x, boy.y)
         else:
-            boy.image.clip_composite_draw(0, (96 + 1)*2, 48, 36, 3.141592, 'v', boy.x, boy.y, 48, 36)
+            boy.image.clip_composite_draw(0, 96*2, 48, 36, 3.141592, 'v', boy.x, boy.y, 48, 36)
 
 
 class RunState:
@@ -86,9 +86,9 @@ class RunState:
 
     def draw(boy):
         if boy.dir == 1:
-            boy.image.clip_draw(int(boy.frame + 1) * 48, (96+1)*2, 48, 36, boy.x, boy.y)
+            boy.image.clip_draw(int(boy.frame + 1) * 48, 96*2, 48, 36, boy.x, boy.y)
         else:
-            boy.image.clip_composite_draw(int(boy.frame+1) * 48, (96+1)*2, 48, 32, 3.141592,'v', boy.x, boy.y, 48, 36)
+            boy.image.clip_composite_draw(int(boy.frame+1) * 48, 96*2, 48, 36, 3.141592,'v', boy.x, boy.y, 48, 36)
 
 
 next_state_table = {
