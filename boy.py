@@ -6,7 +6,6 @@ import game_world
 
 
 
-SIZE = 48
 # Boy Run Speed
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
 RUN_SPEED_KMPH = 20.0  # Km / Hour
@@ -19,10 +18,10 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 
-mario_weight = [48, 56, 60, 44, 52, 52, 64, 51, 52, 52, 52, 56]
+mario_weight = [36, 45, 33, 39, 39, 48, 42, 36, 39, 40, 39, 39, 39, 42]
 
 # Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE = range(6)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE = range(5)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -55,14 +54,12 @@ class IdleState:
 
     def do(boy):
         boy.timer -= 1
-        if boy.timer == 0:
-            boy.add_event(SLEEP_TIMER)
 
     def draw(boy):
         if boy.dir == 1:
-            boy.image.clip_draw(0, 64, 16, 16, boy.x, boy.y, SIZE, SIZE* 2/3)
+            boy.image.clip_draw(0, (96 + 1)*2, 48, 36, boy.x, boy.y)
         else:
-            boy.image.clip_composite_draw(0, 64, 16, 16, 3.141592, 'v', boy.x, boy.y, SIZE, SIZE* 2/3)
+            boy.image.clip_composite_draw(0, (96 + 1)*2, 48, 36, 3.141592, 'v', boy.x, boy.y, 48, 36)
 
 
 class RunState:
@@ -89,37 +86,14 @@ class RunState:
 
     def draw(boy):
         if boy.dir == 1:
-            boy.image.clip_draw(int(boy.frame + 1) * 16, 64, 16, 16, boy.x, boy.y, SIZE, SIZE * 2/3)
+            boy.image.clip_draw(int(boy.frame + 1) * 48, (96+1)*2, 48, 36, boy.x, boy.y)
         else:
-            boy.image.clip_composite_draw(int(boy.frame+1) * 16, 64, 16, 16, 3.141592,'v', boy.x, boy.y, SIZE, SIZE* 2/3)
-
-
-class SleepState:
-
-    def enter(boy, event):
-        boy.frame = 0
-
-    def exit(boy, event):
-        pass
-
-    def do(boy):
-        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-
-    def draw(boy):
-        if boy.dir == 1:
-            boy.image.clip_composite_draw(int(boy.frame) * 100, 300, 100, 100, 3.141592 / 2, '', boy.x - 25, boy.y - 25, 100, 100)
-        else:
-            boy.image.clip_composite_draw(int(boy.frame) * 100, 200, 100, 100, -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
-
-
-
-
+            boy.image.clip_composite_draw(int(boy.frame+1) * 48, (96+1)*2, 48, 32, 3.141592,'v', boy.x, boy.y, 48, 36)
 
 
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SLEEP_TIMER: SleepState, SPACE: IdleState},
+    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: IdleState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, SPACE: RunState},
-    SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState, LEFT_UP: RunState, RIGHT_UP: RunState, SPACE: IdleState}
 }
 
 class Boy:
@@ -137,7 +111,10 @@ class Boy:
         self.cur_state.enter(self, None)
 
     def get_bb(self):
-        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+        if self.cur_state == IdleState:
+            return self.x - 18, self.y - 18, self.x + 18, self.y + 18
+        if self.cur_state == RunState:
+            return self.x - mario_weight[int(self.frame + 1)] / 2,self.y - 18, self.x + mario_weight[int(self.frame + 1)] / 2, self.y + 18
         return 0, 0, 0, 0
 
 
