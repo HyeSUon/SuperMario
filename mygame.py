@@ -3,6 +3,6 @@ import pico2d
 
 import main_state
 
-pico2d.open_canvas(768, 480)
+pico2d.open_canvas(960, 600)
 game_framework.run(main_state)
 pico2d.close_canvas()

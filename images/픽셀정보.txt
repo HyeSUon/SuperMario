@@ -1,7 +1,34 @@
-마리오의 크기 48pxel 0.3m
+마리오의 크기 48pxel 0.3m 1픽셀당 1.6cm
 맵크기
-weight: 48 x 16 = 768pxel, 0.3m x 16 = 4.8m
-48pxel x10 = 480pxel, 0.3m x 10 = 3m
+12660 x 1200 > 202.56m x 19.2m
+카메라뷰
+960x600 > 1.536m x 0.96m
+
+
+character
 
 small_mario
+48, 36간격
 weight = [36, 45, 33, 39, 39, 48, 42, 36, 39, 40, 39, 39, 39, 42]
+big_mario
+48, 96간격
+
+
+
+
+jump state 추가해야됨.
+
+
+blocks
+
+바닥 > floor
+height: 40 weight: 60
+마리오와 충돌시: 밀어냄
+
+벽돌 > brick
+height: 40 weight: 63
+점프 상태의 마리오와 충돌시: 밀어냄
+
+아이템상자 > item_brick
+height:40 weight: 63
+점프 상태의 마리오와 충돌시: 아이템을 뿌림
