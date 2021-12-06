@@ -1,8 +1,8 @@
-마리오의 크기 48pxel 0.3m 1픽셀당 1.6cm
+마리오의 크기 48pxel 0.3m 1픽셀당 2cm
 맵크기
-12660 x 1200 > 202.56m x 19.2m
+12660 x 1200 > 253.2m x 24m
 카메라뷰
-960x600 > 1.536m x 0.96m
+960x600 > 19.2m x 12m
 
 
 character
@@ -24,6 +24,13 @@ blocks
 바닥 > floor
 height: 40 weight: 60
 마리오와 충돌시: 밀어냄
+
+floors
+height: 40 weight: 4140pxel
+1: 4140, 2: 900 3:3840 4:3360
+
+
+
 
 벽돌 > brick
 height: 40 weight: 63
