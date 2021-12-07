@@ -103,7 +103,7 @@ class Mario:
         self.x, self.y = x, y
         # Boy is only once created, so instance image loading is fine
         self.image = load_image('images\mario.png')
-        self.font = load_font('ENCR10B.TTF', 16)
+        # self.font = load_font('ENCR10B.TTF', 16)
         self.dir = 1
         self.x_velocity = 0
         self.y_velocity = 0
@@ -112,8 +112,6 @@ class Mario:
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
         self.cur_size = "small"
-        self.score, self.coin, self.life = 0, 0, 3
-
     def get_bb(self):
         if self.cur_state == IdleState:
             return self.x - 18, self.y - 18, self.x + 18, self.y + 18
@@ -143,7 +141,6 @@ class Mario:
         self.y = clamp(0, self.y, server.background.h-1)
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_bb())
 
 
     def handle_event(self, event):
