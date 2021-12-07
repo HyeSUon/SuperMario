@@ -4,12 +4,13 @@ import os
 from pico2d import *
 import game_framework
 import game_world
+import server
 name = "MainState"
 
 from mario import Mario
 from background import Background
 
-import server
+
 
 def enter():
     server.mario = Mario()
