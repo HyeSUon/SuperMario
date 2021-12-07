@@ -1,15 +1,15 @@
 import random
 import os
-
+import server
 from pico2d import *
 import game_framework
 import game_world
-name = "MainState"
+server.name = "MainState"
 
 from mario import Mario
 from background import Background
 
-import server
+
 
 def enter():
     server.mario = Mario()
@@ -20,6 +20,8 @@ def enter():
 
 def exit():
     game_world.clear()
+    #추상적 객체 삭제
+    del(server.score)
 
 def pause():
     pass
