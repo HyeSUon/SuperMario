@@ -3,11 +3,19 @@ import os
 
 from pico2d import *
 import game_framework
-
+import game_world
 name = "MainState"
 
+from mario import Mario
+
+import server
+
 def enter():
-    pass
+    server.mario = Mario()
+    game_world.add_object(server.mario, 1)
+
+def exit():
+    game_world.clear()
 
 def pause():
     pass
@@ -23,10 +31,14 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            pass
+            server.mario.handle_event(event)
+
 def update():
-    pass
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 def draw():
     clear_canvas()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     update_canvas()
