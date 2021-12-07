@@ -7,12 +7,16 @@ import game_world
 name = "MainState"
 
 from mario import Mario
+from background import Background
 
 import server
 
 def enter():
     server.mario = Mario()
     game_world.add_object(server.mario, 1)
+
+    server.background = Background()
+    game_world.add_object(server.background, 0)
 
 def exit():
     game_world.clear()

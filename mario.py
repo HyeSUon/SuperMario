@@ -1,7 +1,7 @@
 import game_framework
 from pico2d import *
 import json
-
+import server
 with open('json//character.json', 'r') as f:
     mario_weight = json.load(f)
 
@@ -54,10 +54,11 @@ class IdleState:
             mario.fire_ball()
 
     def draw(mario):
+        cx, cy = mario.x - server.background.window_left, mario.y - server.background.window_bottom
         if mario.dir == 1:
-            mario.image.clip_draw(0, 96*2, 48, 36, mario.x, mario.y, 48, 36)
+            mario.image.clip_draw(0, 96*2, 48, 36, cx, cy, 48, 36)
         else:
-            mario.image.clip_composite_draw(0, 96*2, 48, 36, 3.141592, 'v', mario.x, mario.y, 48, 36)
+            mario.image.clip_composite_draw(0, 96*2, 48, 36, 3.141592, 'v', cx, cy, 48, 36)
 
 class RunState:
 
@@ -80,13 +81,15 @@ class RunState:
     def do(mario):
         mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
         mario.x += mario.x_velocity * game_framework.frame_time
-        mario.x = clamp(25, mario.x, 1600 - 25)
 
     def draw(mario):
+
+        cx, cy = mario.x - server.background.window_left, mario.y-server.background.window_bottom
+
         if mario.dir == 1:
-            mario.image.clip_draw(int(mario.frame + 1) * 48, 96*2, 48, 36, mario.x, mario.y, 48, 36)
+            mario.image.clip_draw(int(mario.frame + 1) * 48, 96*2, 48, 36, cx, cy, 48, 36)
         else:
-            mario.image.clip_composite_draw(int(mario.frame+1) * 48, 96*2, 48, 36, 3.141592,'v', mario.x, mario.y, 48, 36)
+            mario.image.clip_composite_draw(int(mario.frame+1) * 48, 96*2, 48, 36, 3.141592,'v', cx, cy, 48, 36)
 
 
 next_state_table = {
@@ -96,7 +99,7 @@ next_state_table = {
 
 class Mario:
 
-    def __init__(self, x = 300, y = 190):
+    def __init__(self, x = 300, y = 100):
         self.x, self.y = x, y
         # Boy is only once created, so instance image loading is fine
         self.image = load_image('images\mario.png')
@@ -134,6 +137,8 @@ class Mario:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
+        self.x = clamp(server.background.window_left, self.x, server.background.w-1)
+        self.y = clamp(0, self.y, server.background.h-1)
     def draw(self):
         self.cur_state.draw(self)
 
@@ -143,3 +148,7 @@ class Mario:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
+    def set_background(self, bg):
+        self.bg = bg
+        self.x = self.bg.w / 2
+        self.y = self.bg.h / 2
