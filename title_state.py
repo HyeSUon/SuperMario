@@ -5,6 +5,7 @@ import server
 name = "TitleState"
 image = None
 
+
 def enter():
     global image
     image = load_image('images//Title.png')
@@ -23,23 +24,22 @@ def handle_events():
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
                 game_framework.change_state(main_state)
-
-import score
 def draw():
     clear_canvas()
     image.draw(400, 300)
-    for i in range (0,6):
-        score.clip_draw(number[0]['x'], number[0]['y'],
-                    number[0]['w'], number[0]['h'], 75+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
-    for i in range (0,6):
-        score.clip_draw(number[0]['x'], number[0]['y'],
-                    number[0]['w'], number[0]['h'], 426+number[0]['w']/2 +26*i, 128-number[0]['h']/2, 26, 22)
-    for i in range (0,2):
-        score.clip_draw(number[0]['x'], number[0]['y'],
-                    number[0]['w'], number[0]['h'], 326+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
-
-    score.clip_draw(number[1]['x'], number[1]['y'],
-                    number[1]['w'], number[1]['h'], 475 + number[1]['w'] / 2, 559 - number[1]['h']/2, 26, 22)
+    server.score.point_draw(name)
+    # for i in range (0,6):
+    #     score.clip_draw(number[0]['x'], number[0]['y'],
+    #                 number[0]['w'], number[0]['h'], 75+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
+    # for i in range (0,6):
+    #     score.clip_draw(number[0]['x'], number[0]['y'],
+    #                 number[0]['w'], number[0]['h'], 426+number[0]['w']/2 +26*i, 128-number[0]['h']/2, 26, 22)
+    # for i in range (0,2):
+    #     score.clip_draw(number[0]['x'], number[0]['y'],
+    #                 number[0]['w'], number[0]['h'], 326+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
+    #
+    # score.clip_draw(number[1]['x'], number[1]['y'],
+    #                 number[1]['w'], number[1]['h'], 475 + number[1]['w'] / 2, 559 - number[1]['h']/2, 26, 22)
 
     update_canvas()
 

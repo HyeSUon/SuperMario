@@ -109,7 +109,7 @@ class Mario:
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
         self.cur_size = "small"
-        self.point, self.coin, self.life = 0,0,3
+        self.point, self.coin, self.life = 0,0,0
     def get_bb(self):
         if self.cur_state == IdleState:
             return self.cx - 18, self.cy - 18, self.cx + 18, self.cy + 18
