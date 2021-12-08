@@ -8,13 +8,12 @@ image = None
 with open('json//number.json', 'r') as f:
     number = json.load(f)
 
-from score import Score
 
 def enter():
-    global image, score, sc
+    global image
     image = load_image('images//Title.png')
 def exit():
-    global image, score
+    global image
     del(image)
 import main_state
 

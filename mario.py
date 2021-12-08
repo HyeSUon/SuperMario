@@ -54,11 +54,10 @@ class IdleState:
             mario.fire_ball()
 
     def draw(mario):
-        cx, cy = mario.x - server.background.window_left, mario.y - server.background.window_bottom
         if mario.dir == 1:
-            mario.image.clip_draw(0, 96*2, 48, 36, cx, cy, 48, 36)
+            mario.image.clip_draw(0, 96*2, 48, 36, mario.cx, mario.cy, 48, 36)
         else:
-            mario.image.clip_composite_draw(0, 96*2, 48, 36, 3.141592, 'v', cx, cy, 48, 36)
+            mario.image.clip_composite_draw(0, 96*2, 48, 36, 3.141592, 'v', mario.cx, mario.cy, 48, 36)
 
 class RunState:
 
@@ -83,13 +82,10 @@ class RunState:
         mario.x += mario.x_velocity * game_framework.frame_time
 
     def draw(mario):
-
-        cx, cy = mario.x - server.background.window_left, mario.y-server.background.window_bottom
-
         if mario.dir == 1:
-            mario.image.clip_draw(int(mario.frame + 1) * 48, 96*2, 48, 36, cx, cy, 48, 36)
+            mario.image.clip_draw(int(mario.frame + 1) * 48, 96*2, 48, 36, mario.cx, mario.cy, 48, 36)
         else:
-            mario.image.clip_composite_draw(int(mario.frame+1) * 48, 96*2, 48, 36, 3.141592,'v', cx, cy, 48, 36)
+            mario.image.clip_composite_draw(int(mario.frame+1) * 48, 96*2, 48, 36, 3.141592,'v', mario.cx, mario.cy, 48, 36)
 
 
 next_state_table = {
@@ -101,6 +97,7 @@ class Mario:
 
     def __init__(self, x = 300, y = 100):
         self.x, self.y = x, y
+        self.cx, self.cy = 0, 0
         # Boy is only once created, so instance image loading is fine
         self.image = load_image('images\mario.png')
         self.font = load_font('ENCR10B.TTF', 16)
@@ -114,9 +111,9 @@ class Mario:
         self.cur_size = "small"
     def get_bb(self):
         if self.cur_state == IdleState:
-            return self.x - 18, self.y - 18, self.x + 18, self.y + 18
+            return self.cx - 18, self.cy - 18, self.cx + 18, self.cy + 18
         if self.cur_state == RunState:
-            return self.x - mario_weight[self.cur_size][int(self.frame + 1)] / 2,self.y - 18, self.x + mario_weight[self.cur_size][int(self.frame + 1)] / 2, self.y + 18
+            return self.cx - mario_weight[self.cur_size][int(self.frame + 1)] / 2,self.y - 18, self.cx + mario_weight[self.cur_size][int(self.frame + 1)] / 2, self.cy + 18
         return 0, 0, 0, 0
 
 
@@ -139,6 +136,10 @@ class Mario:
 
         self.x = clamp(server.background.window_left, self.x, server.background.w-1)
         self.y = clamp(0, self.y, server.background.h-1)
+        self.cx, self.cy = self.x - server.background.window_left, self.y - server.background.window_bottom
+
+        print(self.cur_state)
+        print(self.x)
     def draw(self):
         self.cur_state.draw(self)
         draw_rectangle(*self.get_bb())

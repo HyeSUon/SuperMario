@@ -18,7 +18,7 @@ class Background:
         pass
 
     def update(self):
-        if server.mario.dir == 1 and self.window_left + self.canvas_width//2 < server.mario.x:
+        if server.mario.dir == 1 and (self.window_left + self.canvas_width//2) < server.mario.x:
             self.window_left = clamp(0, int(server.mario.x) - server.background.canvas_width // 2,
                                      server.background.w - server.background.canvas_width)
         self.window_bottom = clamp(0, int(server.mario.y) - server.background.canvas_height // 2,
