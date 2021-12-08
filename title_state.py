@@ -4,6 +4,9 @@ import json
 import server
 name = "TitleState"
 image = None
+# 숫자 좌표값 불러오기
+with open('json//number.json', 'r') as f:
+    number = json.load(f)
 
 
 def enter():
@@ -27,7 +30,6 @@ def handle_events():
 def draw():
     clear_canvas()
     image.draw(400, 300)
-    server.score.point_draw(name)
     # for i in range (0,6):
     #     score.clip_draw(number[0]['x'], number[0]['y'],
     #                 number[0]['w'], number[0]['h'], 75+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
@@ -44,6 +46,7 @@ def draw():
     update_canvas()
 
 def update():
+    server.score.st(name)
     pass
 def pause():
     pass
