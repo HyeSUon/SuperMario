@@ -141,8 +141,22 @@ class Mario:
             self.cur_state.enter(self, event)
 
         self.x = clamp(server.background.window_left, self.x, server.background.w-1)
-        self.y = clamp(0, self.y - self.fall_speed, server.background.h-1)
+        self.y = clamp(0, self.y, server.background.h-1)
         self.cx, self.cy = self.x - server.background.window_left, self.y - server.background.window_bottom
+
+        if self.parent == None:
+            print("parent None")
+            self.y -= self.fall_speed
+        else:
+            print("parent grass")
+            if self.x > self.parent.right or self.x < self.parent.left\
+                    or self.y > self.parent.top+19:
+                self.parent = None
+
+        if self.parent == server.grass:
+            print("parent grass")
+            if self.x > server.grass.right or self.x < server.grass.left:
+                self.parent = None
 
         if collision.collide(self, server.grass):
             self.set_parent(server.grass)
