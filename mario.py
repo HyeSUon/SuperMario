@@ -2,8 +2,10 @@ import game_framework
 from pico2d import *
 import json
 import server
+import collision
 with open('json//character.json', 'r') as f:
     mario_weight = json.load(f)
+
 
 # Run Speed
 
@@ -89,13 +91,15 @@ class RunState:
 
 
 next_state_table = {
-    IdleState: {RIGHTKEY_UP: RunState, LEFTKEY_UP: RunState, RIGHTKEY_DOWN: RunState, LEFTKEY_DOWN: RunState, SPACE: IdleState},
-    RunState: {RIGHTKEY_UP: IdleState, LEFTKEY_UP: IdleState, LEFTKEY_DOWN: IdleState, RIGHTKEY_DOWN: IdleState, SPACE: RunState},
+    IdleState: {RIGHTKEY_UP: RunState, LEFTKEY_UP: RunState,
+                RIGHTKEY_DOWN: RunState, LEFTKEY_DOWN: RunState, SPACE: IdleState},
+    RunState: {RIGHTKEY_UP: IdleState, LEFTKEY_UP: IdleState, LEFTKEY_DOWN: IdleState,
+               RIGHTKEY_DOWN: IdleState, SPACE: RunState},
 }
 
 class Mario:
 
-    def __init__(self, x = 300, y = 100):
+    def __init__(self, x = 300, y = 50):
         self.x, self.y = x, y
         self.cx, self.cy = 0, 0
         # Boy is only once created, so instance image loading is fine
@@ -109,6 +113,8 @@ class Mario:
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
         self.cur_size = "small"
+        self.parent = None
+        self.fall_speed = 1
     def get_bb(self):
         if self.cur_state == IdleState:
             return self.cx - 18, self.cy - 18, self.cx + 18, self.cy + 18
@@ -135,11 +141,12 @@ class Mario:
             self.cur_state.enter(self, event)
 
         self.x = clamp(server.background.window_left, self.x, server.background.w-1)
-        self.y = clamp(0, self.y, server.background.h-1)
+        self.y = clamp(0, self.y - self.fall_speed, server.background.h-1)
         self.cx, self.cy = self.x - server.background.window_left, self.y - server.background.window_bottom
 
-        print(self.cur_state)
-        print(self.x)
+        if collision.collide(self, server.grass):
+            self.set_parent(server.grass)
+            print("mario - grass collide")
     def draw(self):
         self.cur_state.draw(self)
         draw_rectangle(*self.get_bb())
@@ -150,7 +157,11 @@ class Mario:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
+
     def set_background(self, bg):
         self.bg = bg
         self.x = self.bg.w / 2
         self.y = self.bg.h / 2
+    def set_parent(self, grass):
+        self.parent = grass
+        self.y = grass.top + 19

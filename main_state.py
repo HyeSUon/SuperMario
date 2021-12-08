@@ -9,7 +9,7 @@ name = "MainState"
 
 from mario import Mario
 from background import Background
-
+from brick import Grass
 
 
 def enter():
@@ -18,6 +18,9 @@ def enter():
 
     server.background = Background()
     game_world.add_object(server.background, 0)
+
+    server.grass = Grass()
+    game_world.add_object(server.grass, 0)
 
 def exit():
     game_world.clear()
@@ -41,7 +44,6 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
-    server.score.st(name)
 
 def draw():
     clear_canvas()

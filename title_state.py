@@ -4,17 +4,20 @@ import json
 import server
 name = "TitleState"
 image = None
+score = None
 # 숫자 좌표값 불러오기
 with open('json//number.json', 'r') as f:
     number = json.load(f)
 
 
 def enter():
-    global image
+    global image, score
     image = load_image('images//Title.png')
+    score = load_image('images//char.png')
 def exit():
-    global image
+    global image, score
     del(image)
+    del(score)
 import main_state
 
 def handle_events():
@@ -30,23 +33,22 @@ def handle_events():
 def draw():
     clear_canvas()
     image.draw(400, 300)
-    # for i in range (0,6):
-    #     score.clip_draw(number[0]['x'], number[0]['y'],
-    #                 number[0]['w'], number[0]['h'], 75+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
-    # for i in range (0,6):
-    #     score.clip_draw(number[0]['x'], number[0]['y'],
-    #                 number[0]['w'], number[0]['h'], 426+number[0]['w']/2 +26*i, 128-number[0]['h']/2, 26, 22)
-    # for i in range (0,2):
-    #     score.clip_draw(number[0]['x'], number[0]['y'],
-    #                 number[0]['w'], number[0]['h'], 326+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
-    #
-    # score.clip_draw(number[1]['x'], number[1]['y'],
-    #                 number[1]['w'], number[1]['h'], 475 + number[1]['w'] / 2, 559 - number[1]['h']/2, 26, 22)
+    for i in range (0,6):
+        score.clip_draw(number[0]['x'], number[0]['y'],
+                    number[0]['w'], number[0]['h'], 75+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
+    for i in range (0,6):
+        score.clip_draw(number[0]['x'], number[0]['y'],
+                    number[0]['w'], number[0]['h'], 426+number[0]['w']/2 +26*i, 128-number[0]['h']/2, 26, 22)
+    for i in range (0,2):
+        score.clip_draw(number[0]['x'], number[0]['y'],
+                    number[0]['w'], number[0]['h'], 326+number[0]['w']/2 +26*i, 559-number[0]['h']/2, 26, 22)
+
+    score.clip_draw(number[1]['x'], number[1]['y'],
+                    number[1]['w'], number[1]['h'], 475 + number[1]['w'] / 2, 559 - number[1]['h']/2, 26, 22)
 
     update_canvas()
 
 def update():
-    server.score.st(name)
     pass
 def pause():
     pass

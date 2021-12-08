@@ -11,6 +11,7 @@ class Background:
         self.w = self.image.w
         self.h = self.image.h
         self.window_left = 0;
+        self.window_bottom = 0;
     def draw(self):
         self.image.clip_draw_to_origin(self.window_left, self.window_bottom + 600,
                                        server.background.canvas_width, server.background.canvas_height,
